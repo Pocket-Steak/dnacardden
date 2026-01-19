@@ -4,294 +4,449 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DNA Card Den</title>
-
   <meta name="description" content="DNA Card Den — Premium TCG • Buy • Sell • Trade" />
 
   <style>
-    :root {
-      --bg-dark: #020617;
-      --bg-light: #0f172a;
-      --glass-bg: rgba(30, 41, 59, 0.6);
-      --glass-border: rgba(255, 255, 255, 0.08);
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --accent-gold: #fbbf24;
-      --accent-glow: rgba(251, 191, 36, 0.4);
-      --accent-blue: #38bdf8;
+    :root{
+      /* Apple-ish neutral palette */
+      --bg: #0b0b0d;
+      --panel: rgba(255,255,255,0.06);
+      --panel-2: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.10);
+      --border-2: rgba(255,255,255,0.14);
+
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.65);
+      --muted2: rgba(255,255,255,0.45);
+
+      --accent: #0a84ff; /* iOS blue */
+      --accent-soft: rgba(10,132,255,0.20);
+
+      --radius: 22px;
+      --radius-sm: 14px;
+
+      --shadow: 0 18px 50px rgba(0,0,0,0.55);
+      --shadow-soft: 0 10px 30px rgba(0,0,0,0.35);
     }
 
     * { box-sizing: border-box; }
+    html, body { height: 100%; }
 
-    body {
+    body{
       margin: 0;
-      padding: 20px;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      background-color: var(--bg-dark);
-      background-image: radial-gradient(circle at 50% 0%, #1e293b 0%, var(--bg-dark) 75%);
-      color: var(--text-main);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display","SF Pro Text","Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 600px at 50% -10%, rgba(255,255,255,0.10), transparent 60%),
+        radial-gradient(900px 500px at 20% 10%, rgba(10,132,255,0.12), transparent 55%),
+        radial-gradient(900px 500px at 80% 0%, rgba(255,255,255,0.06), transparent 55%),
+        var(--bg);
       -webkit-font-smoothing: antialiased;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 500px;
-    }
-
-    /* HEADER */
-    .profile-section {
-      margin: 40px 0;
-      text-align: center;
-      animation: fadeInDown 0.8s ease-out;
-    }
-
-    .logo-container {
-      max-width: 220px;
-      margin: 0 auto 24px;
+      text-rendering: optimizeLegibility;
+      padding: 28px 18px 40px;
       display: flex;
       justify-content: center;
-      align-items: center;
-
-      /* IMPORTANT:
-         No background here.
-         If you see a box, it is inside the image file. */
-      background: none;
-      padding: 0;
-      border: none;
-
-      filter: drop-shadow(0 0 25px var(--accent-glow));
     }
 
-    .logo-img {
+    .container{
       width: 100%;
+      max-width: 860px; /* wider = more premium than 500px */
+    }
+
+    /* Top “hero” */
+    .hero{
+      padding: 34px 22px;
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03));
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero::before{
+      content:"";
+      position: absolute;
+      inset: -2px;
+      background:
+        radial-gradient(800px 300px at 50% 0%, rgba(10,132,255,0.22), transparent 60%);
+      pointer-events: none;
+      opacity: 0.65;
+    }
+
+    .hero-inner{
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+      align-items: center;
+      text-align: center;
+    }
+
+    .logo-wrap{
+      display: flex;
+      justify-content: center;
+    }
+
+    .logo{
+      width: min(220px, 70vw);
       height: auto;
       display: block;
-
-      /* Explicitly force no background */
+      /* No background here; if you still see a box, it’s inside the PNG */
       background: transparent;
+      filter: drop-shadow(0 10px 26px rgba(0,0,0,0.55));
     }
 
-    h1 {
+    .kicker{
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+      letter-spacing: 0.2px;
+    }
+
+    .dot{
+      width: 4px;
+      height: 4px;
+      border-radius: 99px;
+      background: rgba(255,255,255,0.35);
+      display: inline-block;
+    }
+
+    h1{
       margin: 0;
-      font-size: 2.2rem;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      background: linear-gradient(to right, #ffffff, #cbd5e1);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+      letter-spacing: -0.6px;
+      font-size: clamp(2.0rem, 3.2vw, 2.6rem);
+      line-height: 1.08;
     }
 
-    .hidden {
-      display: none !important;
+    .sub{
+      margin: 0 auto;
+      max-width: 52ch;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.5;
     }
 
-    .bio {
+    /* Buttons */
+    .cta-row{
       margin-top: 10px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      color: var(--text-muted);
-    }
-
-    /* LINKS */
-    .links-section {
       display: flex;
-      flex-direction: column;
-      gap: 16px;
-      margin-bottom: 50px;
-      animation: fadeInUp 0.8s ease-out 0.2s backwards;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
     }
 
-    .link-btn {
-      background: var(--glass-bg);
-      backdrop-filter: blur(12px);
-      color: var(--text-main);
+    .btn{
       text-decoration: none;
-      padding: 18px;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-weight: 600;
+      font-size: 1rem;
+      border: 1px solid var(--border-2);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .btn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.09);
+      border-color: rgba(255,255,255,0.20);
+    }
+
+    .btn-primary{
+      background: var(--accent);
+      border-color: rgba(255,255,255,0.0);
+      color: white;
+      box-shadow: 0 16px 35px rgba(10,132,255,0.30);
+    }
+
+    .btn-primary:hover{
+      background: #1b8dff;
+      transform: translateY(-1px);
+    }
+
+    .icon{
+      width: 18px;
+      height: 18px;
+      display: inline-block;
+      opacity: 0.95;
+    }
+
+    /* Two-column content area */
+    .grid{
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 840px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .card-header{
+      padding: 18px 18px 12px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .card-title{
+      margin: 0;
+      font-size: 0.95rem;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+    }
+
+    .card-note{
+      font-size: 0.95rem;
+      color: var(--muted2);
+      margin: 0;
+      white-space: nowrap;
+    }
+
+    .card-body{
+      padding: 0 18px 18px;
+    }
+
+    /* Events list */
+    .events{
+      display: grid;
+      gap: 10px;
+      padding: 6px 0 0;
+    }
+
+    .event{
+      display: grid;
+      grid-template-columns: 86px 1fr;
+      gap: 14px;
+      padding: 14px;
       border-radius: 16px;
-      border: 1px solid var(--glass-border);
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.035);
+    }
+
+    .date{
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.05);
+      padding: 10px 10px;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      color: rgba(255,255,255,0.85);
+      font-size: 0.95rem;
+    }
+
+    .event-name{
+      margin: 0;
       font-weight: 650;
       font-size: 1.05rem;
+      letter-spacing: -0.2px;
+    }
+
+    .event-loc{
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.35;
+    }
+
+    /* Right-side “quick info” */
+    .list{
+      display: grid;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .list a{
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .row{
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.035);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      transition: all 0.3s ease;
+      gap: 12px;
+      transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
     }
 
-    .link-btn:hover {
-      transform: translateY(-3px);
-      background: rgba(51, 65, 85, 0.8);
-      border-color: rgba(255,255,255,0.2);
-      box-shadow: 0 10px 20px -10px rgba(0,0,0,0.5);
+    .row:hover{
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.18);
+      transform: translateY(-1px);
     }
 
-    .primary-btn {
-      background: linear-gradient(135deg, var(--accent-gold), #d97706);
-      border: none;
-      color: #0f172a;
-      box-shadow: 0 6px 18px var(--accent-glow);
+    .row-title{
+      font-weight: 650;
+      letter-spacing: -0.1px;
     }
 
-    .btn-icon {
-      opacity: 0.7;
-    }
-
-    /* SCHEDULE */
-    .schedule-section {
-      background: rgba(15, 23, 42, 0.6);
-      border-radius: 20px;
-      border: 1px solid var(--glass-border);
-      overflow: hidden;
-      animation: fadeInUp 0.8s ease-out 0.4s backwards;
-    }
-
-    .schedule-section::before {
-      content: "";
-      display: block;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
-    }
-
-    h2 {
-      margin: 0;
-      padding: 20px 25px;
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--accent-gold);
-      background: rgba(0,0,0,0.25);
-    }
-
-    .event {
-      padding: 20px 25px;
-      border-top: 1px solid var(--glass-border);
-      display: flex;
-      align-items: center;
-    }
-
-    .date-box {
-      min-width: 86px;
-      margin-right: 20px;
-      padding: 8px 12px;
-      text-align: center;
-      font-family: monospace;
-      font-weight: 800;
-      color: var(--accent-blue);
-      background: rgba(56,189,248,0.1);
-      border-radius: 8px;
-    }
-
-    .event-name {
-      font-size: 1.1rem;
-      font-weight: 700;
-    }
-
-    .location {
+    .row-sub{
       margin-top: 4px;
-      font-size: 0.9rem;
-      color: var(--text-muted);
+      font-size: 0.92rem;
+      color: var(--muted);
     }
 
-    footer {
-      margin: 50px 0 20px;
+    .chev{
+      opacity: 0.7;
+      font-size: 1.1rem;
+    }
+
+    footer{
+      margin-top: 18px;
       text-align: center;
-      font-size: 0.8rem;
-      color: #475569;
-    }
-
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      color: var(--muted2);
+      font-size: 0.9rem;
     }
   </style>
 </head>
 
 <body>
-  <div class="container">
+  <main class="container">
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="logo-wrap">
+          <!-- If you still see a square background, the PNG itself is not transparent -->
+          <img src="dnalogo.png" alt="DNA Card Den" class="logo" />
+        </div>
 
-    <!-- HEADER -->
-    <section class="profile-section">
-      <div class="logo-container">
-        <img
-          id="logo"
-          src="dnalogo.png"
-          alt="DNA Card Den Logo"
-          class="logo-img"
-        />
+        <div class="kicker">
+          <span>Premium TCG</span><span class="dot"></span><span>Buy</span><span class="dot"></span><span>Sell</span><span class="dot"></span><span>Trade</span>
+        </div>
+
+        <h1>DNA Card Den</h1>
+        <p class="sub">Curated cards, clean listings, and fast shipping. Find singles, sealed, and pickups—online and at local shows.</p>
+
+        <div class="cta-row">
+          <!-- Replace these hrefs -->
+          <a class="btn btn-primary" href="#" target="_blank" rel="noopener noreferrer">
+            <span>Shop eBay</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+
+          <a class="btn" href="#" target="_blank" rel="noopener noreferrer">
+            <span>Instagram</span>
+            <span aria-hidden="true">@</span>
+          </a>
+
+          <a class="btn" href="#" target="_blank" rel="noopener noreferrer">
+            <span>Website</span>
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
       </div>
-
-      <h1 id="fallbackTitle">DNA Card Den</h1>
-      <p class="bio">Premium TCG • Buy • Sell • Trade</p>
     </section>
 
-    <!-- LINKS -->
-    <section class="links-section">
-      <a href="#" class="link-btn primary-btn">
-        <span>Shop Our eBay Store</span>
-        <span class="btn-icon">↗</span>
-      </a>
-
-      <a href="#" class="link-btn">
-        <span>Visit Website</span>
-        <span class="btn-icon">→</span>
-      </a>
-
-      <a href="#" class="link-btn">
-        <span>Follow on Instagram</span>
-        <span class="btn-icon">@</span>
-      </a>
-    </section>
-
-    <!-- SCHEDULE -->
-    <section class="schedule-section">
-      <h2>Catch Us Live</h2>
-
-      <div class="event">
-        <div class="date-box">OCT 14</div>
-        <div>
-          <div class="event-name">Local Collectibles Expo</div>
-          <div class="location">Convention Center • Hall B</div>
+    <section class="grid">
+      <!-- Left: Events -->
+      <article class="card">
+        <div class="card-header">
+          <h2 class="card-title">Catch us live</h2>
+          <p class="card-note">Updated regularly</p>
         </div>
-      </div>
+        <div class="card-body">
+          <div class="events">
+            <div class="event">
+              <div class="date">OCT 14</div>
+              <div>
+                <p class="event-name">Local Collectibles Expo</p>
+                <div class="event-loc">Convention Center • Hall B</div>
+              </div>
+            </div>
 
-      <div class="event">
-        <div class="date-box">NOV 02</div>
-        <div>
-          <div class="event-name">Sunday Card Market</div>
-          <div class="location">Holiday Inn • Downtown</div>
-        </div>
-      </div>
+            <div class="event">
+              <div class="date">NOV 02</div>
+              <div>
+                <p class="event-name">Sunday Card Market</p>
+                <div class="event-loc">Holiday Inn • Downtown</div>
+              </div>
+            </div>
 
-      <div class="event">
-        <div class="date-box">DEC 10</div>
-        <div>
-          <div class="event-name">Mega TCG Show</div>
-          <div class="location">Fairgrounds • Booth 42</div>
+            <div class="event">
+              <div class="date">DEC 10</div>
+              <div>
+                <p class="event-name">Mega TCG Show</p>
+                <div class="event-loc">Fairgrounds • Booth 42</div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      </article>
+
+      <!-- Right: Quick links / trust signals -->
+      <aside class="card">
+        <div class="card-header">
+          <h2 class="card-title">Quick info</h2>
+          <p class="card-note">Fast answers</p>
+        </div>
+
+        <div class="card-body">
+          <div class="list">
+            <a href="#" target="_blank" rel="noopener noreferrer">
+              <div class="row">
+                <div>
+                  <div class="row-title">Shipping</div>
+                  <div class="row-sub">Same/next business day on most orders</div>
+                </div>
+                <div class="chev" aria-hidden="true">›</div>
+              </div>
+            </a>
+
+            <a href="#" target="_blank" rel="noopener noreferrer">
+              <div class="row">
+                <div>
+                  <div class="row-title">Trade / Sell</div>
+                  <div class="row-sub">Message us with photos for an offer</div>
+                </div>
+                <div class="chev" aria-hidden="true">›</div>
+              </div>
+            </a>
+
+            <a href="#" target="_blank" rel="noopener noreferrer">
+              <div class="row">
+                <div>
+                  <div class="row-title">Contact</div>
+                  <div class="row-sub">DM on Instagram for fastest response</div>
+                </div>
+                <div class="chev" aria-hidden="true">›</div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </aside>
     </section>
 
     <footer>
       &copy; <span id="year"></span> DNA Card Den
     </footer>
-  </div>
+  </main>
 
   <script>
-    // Hide text title if logo loads
-    const logo = document.getElementById("logo");
-    const title = document.getElementById("fallbackTitle");
-
-    logo.addEventListener("load", () => title.classList.add("hidden"));
-    logo.addEventListener("error", () => title.classList.remove("hidden"));
-
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 </body>
