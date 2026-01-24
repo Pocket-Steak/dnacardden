@@ -8,15 +8,22 @@
 
   <style>
     :root{
-      /* Brighter Apple-dark (charcoal, not black) */
-      --bg: #121417;
-      --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.62);
+      /* Apple-ish graphite dark (not black) */
+      --bg: #1b1f24;
 
-      /* More separation */
-      --border: rgba(255,255,255,.18);
-      --card: rgba(255,255,255,.07);
-      --hover: rgba(255,255,255,.10);
+      /* Readability */
+      --text: rgba(255,255,255,.94);
+      --muted: rgba(255,255,255,.68);
+
+      /* Surfaces should be clearly lighter than bg */
+      --surface: rgba(255,255,255,.10);
+      --surface2: rgba(255,255,255,.08);
+
+      /* Stronger separation */
+      --border: rgba(255,255,255,.22);
+      --border2: rgba(255,255,255,.18);
+
+      --hover: rgba(255,255,255,.14);
 
       --radius: 18px;
     }
@@ -34,38 +41,38 @@
       overflow-x: hidden;
     }
 
-    /* Subtle, lighter glow (reduced “tunnel” darkness) */
+    /* Lighter, top-focused atmosphere (no dark vignette) */
     .bg-glow{
       position: fixed;
       inset: 0;
       pointer-events: none;
-      background:
-        radial-gradient(900px 460px at 50% -10%, rgba(255,255,255,.12), transparent 60%),
-        radial-gradient(700px 420px at 18% 0%, rgba(10,132,255,.10), transparent 55%),
-        radial-gradient(700px 420px at 82% 0%, rgba(255,255,255,.08), transparent 55%);
-      opacity: .35;
       z-index: 0;
+      background:
+        radial-gradient(900px 520px at 50% -10%, rgba(255,255,255,.18), transparent 62%),
+        radial-gradient(700px 440px at 20% -5%, rgba(10,132,255,.16), transparent 60%),
+        radial-gradient(700px 440px at 80% -5%, rgba(255,255,255,.10), transparent 60%);
+      opacity: .55;
     }
 
-    /* Floating cards animation layer (kept, but lighter) */
+    /* Fun cards, but MUCH lighter and less intrusive */
     .float-layer{
       position: fixed;
       inset: 0;
       pointer-events: none;
       z-index: 0;
       overflow: hidden;
+      opacity: .45;
     }
 
     .float-card{
       position: absolute;
-      width: 160px;
-      height: 220px;
+      width: 150px;
+      height: 205px;
       border-radius: 18px;
-      border: 1px solid rgba(255,255,255,.16);
-      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.03));
-      box-shadow: 0 24px 60px rgba(0,0,0,.35);
-      opacity: 0.10;
-      transform: translate3d(0,0,0) rotate(0deg);
+      border: 1px solid rgba(255,255,255,.20);
+      background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.06));
+      box-shadow: 0 24px 60px rgba(0,0,0,.22);
+      opacity: .12;
       animation: drift var(--dur) ease-in-out infinite;
     }
 
@@ -74,9 +81,9 @@
       position:absolute;
       inset: 12px;
       border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: radial-gradient(circle at 30% 20%, rgba(255,255,255,.14), transparent 60%);
-      opacity: 0.9;
+      border: 1px solid rgba(255,255,255,.18);
+      background: radial-gradient(circle at 30% 20%, rgba(255,255,255,.18), transparent 60%);
+      opacity: .9;
     }
 
     @keyframes drift{
@@ -89,7 +96,7 @@
       min-height: 100%;
       display: grid;
       place-items: center;
-      padding: 28px 18px 44px;
+      padding: 30px 18px 46px;
       position: relative;
       z-index: 1;
     }
@@ -98,28 +105,26 @@
       width: 100%;
       max-width: 760px;
       display: grid;
-      gap: 20px;
+      gap: 18px;
     }
 
-    /* Logo zone lifted (Apple-like) */
+    /* Hero gets a subtle “light panel” to lift the logo */
     .hero{
-      padding: 32px 18px 8px;
+      padding: 34px 18px 10px;
       text-align: center;
       border-radius: 22px;
-      background: radial-gradient(
-        460px 220px at 50% 35%,
-        rgba(255,255,255,.07),
-        transparent 70%
-      );
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+      border: 1px solid var(--border2);
+      box-shadow: 0 24px 70px rgba(0,0,0,.28);
     }
 
     .logo{
-      width: min(240px, 72vw);
+      width: min(250px, 72vw);
       height: auto;
       display: block;
-      margin: 0 auto 18px;
+      margin: 0 auto;
       background: transparent;
-      filter: drop-shadow(0 10px 26px rgba(0,0,0,.35));
+      filter: drop-shadow(0 12px 28px rgba(0,0,0,.30));
     }
 
     /* Single action */
@@ -128,7 +133,7 @@
       gap: 10px;
       margin: 0 auto;
       width: 100%;
-      max-width: 420px;
+      max-width: 460px;
       padding: 0 6px;
     }
 
@@ -141,32 +146,34 @@
       border-radius: 999px;
       text-decoration: none;
       color: var(--text);
-      background: var(--card);
+      background: var(--surface);
       border: 1px solid var(--border);
       transition: transform .15s ease, background .15s ease, border-color .15s ease;
-      font-weight: 650;
+      font-weight: 700;
       letter-spacing: -0.1px;
+      box-shadow: 0 16px 50px rgba(0,0,0,.22);
     }
 
     .btn:hover{
       transform: translateY(-1px);
       background: var(--hover);
-      border-color: rgba(255,255,255,.24);
+      border-color: rgba(255,255,255,.30);
     }
 
     .btn small{
       color: var(--muted);
-      font-weight: 650;
+      font-weight: 700;
       white-space: nowrap;
     }
 
     /* Gallery */
     .gallery{
-      margin-top: 8px;
+      margin-top: 6px;
       padding: 12px;
       border-radius: var(--radius);
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.04);
+      border: 1px solid var(--border2);
+      background: var(--surface2);
+      box-shadow: 0 16px 50px rgba(0,0,0,.20);
     }
 
     .grid{
@@ -177,17 +184,15 @@
 
     @media (max-width: 640px){
       .grid{ grid-template-columns: 1fr; }
-      .float-card{ opacity: 0.07; }
+      .float-layer{ opacity: .30; }
     }
 
     .shot{
       border-radius: 14px;
       overflow: hidden;
-      border: 1px solid rgba(255,255,255,.16);
+      border: 1px solid rgba(255,255,255,.22);
       cursor: pointer;
-
-      /* nicer when images haven’t loaded yet */
-      background: linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.03));
+      background: linear-gradient(135deg, rgba(255,255,255,.18), rgba(255,255,255,.06));
     }
 
     .shot img{
@@ -198,27 +203,29 @@
       transition: transform .18s ease;
     }
 
-    .shot:hover img{ transform: scale(1.035); }
+    .shot:hover img{ transform: scale(1.03); }
 
     .caption{
       margin-top: 10px;
       text-align: center;
       color: var(--muted);
       font-size: .92rem;
+      font-weight: 600;
     }
 
     footer{
       text-align: center;
-      color: rgba(255,255,255,.48);
+      color: rgba(255,255,255,.58);
       font-size: .88rem;
       padding-top: 8px;
+      font-weight: 600;
     }
 
     /* Lightbox */
     .lightbox{
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,.62);
+      background: rgba(0,0,0,.55);
       display: none;
       align-items: center;
       justify-content: center;
@@ -233,9 +240,9 @@
       width: 100%;
       border-radius: 16px;
       overflow: hidden;
-      border: 1px solid rgba(255,255,255,.18);
-      background: rgba(18,20,23,.96);
-      box-shadow: 0 30px 80px rgba(0,0,0,.55);
+      border: 1px solid rgba(255,255,255,.22);
+      background: rgba(27,31,36,.98);
+      box-shadow: 0 30px 90px rgba(0,0,0,.55);
     }
 
     .lightbox-inner img{
@@ -249,24 +256,23 @@
       justify-content: space-between;
       align-items: center;
       padding: 10px 12px;
-      color: rgba(255,255,255,.72);
+      color: rgba(255,255,255,.78);
       font-size: .92rem;
-      border-top: 1px solid rgba(255,255,255,.14);
+      border-top: 1px solid rgba(255,255,255,.18);
     }
 
     .xbtn{
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.18);
-      color: rgba(255,255,255,.90);
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.22);
+      color: rgba(255,255,255,.92);
       border-radius: 999px;
       padding: 8px 12px;
       cursor: pointer;
-      font-weight: 650;
+      font-weight: 700;
     }
 
-    .xbtn:hover{ background: rgba(255,255,255,.10); }
+    .xbtn:hover{ background: rgba(255,255,255,.14); }
 
-    /* Respect motion preferences */
     @media (prefers-reduced-motion: reduce){
       .float-card{ animation: none; }
       .btn, .shot img { transition: none; }
@@ -277,12 +283,11 @@
 <body>
   <div class="bg-glow" aria-hidden="true"></div>
 
-  <!-- Floating cards animation -->
+  <!-- Lighter floating cards (fewer) -->
   <div class="float-layer" aria-hidden="true">
-    <div class="float-card" style="--x: -40px; --y: 90px; --dx: 40px; --dy: -30px; --r: -8deg; --dur: 10s;"></div>
-    <div class="float-card" style="--x: calc(100vw - 160px); --y: 120px; --dx: -32px; --dy: 24px; --r: 10deg; --dur: 12s;"></div>
-    <div class="float-card" style="--x: 8vw; --y: 520px; --dx: 26px; --dy: 22px; --r: 6deg; --dur: 14s;"></div>
-    <div class="float-card" style="--x: calc(100vw - 260px); --y: 560px; --dx: -22px; --dy: -18px; --r: -12deg; --dur: 16s;"></div>
+    <div class="float-card" style="--x: -30px; --y: 110px; --dx: 32px; --dy: -22px; --r: -8deg; --dur: 12s;"></div>
+    <div class="float-card" style="--x: calc(100vw - 170px); --y: 140px; --dx: -26px; --dy: 18px; --r: 10deg; --dur: 14s;"></div>
+    <div class="float-card" style="--x: 10vw; --y: 560px; --dx: 22px; --dy: 18px; --r: 6deg; --dur: 16s;"></div>
   </div>
 
   <main>
@@ -338,7 +343,6 @@
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // Lightbox
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightboxImg");
     const closeBtn = document.getElementById("closeBtn");
