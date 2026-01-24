@@ -69,53 +69,33 @@ main{
   overflow:hidden;
 }
 
-/* ===== MULTI-LAYER GLOW ===== */
-
-/* outer atmospheric glow */
+/* GLOW LAYERS */
 .hero::before{
   content:"";
   position:absolute;
   width:1200px;
   height:600px;
-  background:
-    radial-gradient(
-      ellipse at center,
-      var(--neon-faint),
-      transparent 70%
-    );
+  background:radial-gradient(ellipse at center,var(--neon-faint),transparent 70%);
   filter:blur(60px);
-  opacity:1;
   z-index:0;
 }
 
-/* mid glow */
 .hero::after{
   content:"";
   position:absolute;
   width:850px;
   height:420px;
-  background:
-    radial-gradient(
-      ellipse at center,
-      var(--neon-soft),
-      transparent 65%
-    );
+  background:radial-gradient(ellipse at center,var(--neon-soft),transparent 65%);
   filter:blur(40px);
   opacity:.95;
   z-index:0;
 }
 
-/* inner intense glow */
 .hero .core-glow{
   position:absolute;
   width:520px;
   height:260px;
-  background:
-    radial-gradient(
-      ellipse at center,
-      var(--neon-strong),
-      transparent 60%
-    );
+  background:radial-gradient(ellipse at center,var(--neon-strong),transparent 60%);
   filter:blur(35px);
   opacity:.85;
   z-index:0;
@@ -125,44 +105,39 @@ main{
 .logo{
   position:relative;
   z-index:1;
-
-  width:min(900px, 95vw);
+  width:min(900px,95vw);
   height:100%;
   object-fit:contain;
   object-position:center 65%;
-
   filter:
     drop-shadow(0 28px 80px rgba(0,0,0,.8))
     drop-shadow(0 0 48px rgba(56,189,248,.35));
 }
 
 /* RESPONSIVE */
-@media (max-width: 900px){
-  .hero{ height:440px; }
+@media (max-width:900px){
+  .hero{height:440px}
 }
-@media (max-width: 520px){
-  .hero{ height:380px; }
-  .logo{ object-position:center 70%; }
+@media (max-width:520px){
+  .hero{height:380px}
+  .logo{object-position:center 70%}
 }
 
-/* BUTTON */
+/* LINKS (TYPO FIXED HERE) */
 .links{
   display:grid;
   place-items:center;
-  margin-top:-18x;
+  margin-top:-18px; /* ✅ FIXED (-18x → -18px) */
 }
 
-.btn{
-  max-width:520px;
-  width:100%;
-  padding:14px 18px;
-  border-radius:999px;
-  text-decoration:none;
-  color:var(--text);
-
+/* EBAY BUTTON */
+.ebay-btn{
   display:flex;
   align-items:center;
-  justify-content:space-between;
+  gap:14px;
+  padding:14px 26px;
+  border-radius:999px;
+  text-decoration:none;
 
   background:
     radial-gradient(120% 140% at 20% 0%, rgba(56,189,248,.25), transparent 60%),
@@ -171,16 +146,22 @@ main{
   border:1px solid rgba(255,255,255,.28);
   box-shadow:0 22px 70px rgba(0,0,0,.7);
 
-  font-weight:750;
+  color:#fff;
+  font-weight:600;
+
   transition:transform .15s ease, filter .15s ease;
 }
 
-.btn:hover{
+.ebay-btn:hover{
   transform:translateY(-1px);
   filter:brightness(1.08);
 }
 
-.btn small{ color:rgba(255,255,255,.72); }
+.ebay-btn img{
+  height:22px;
+  width:auto;
+  display:block;
+}
 
 /* GALLERY */
 .gallery{
@@ -188,7 +169,7 @@ main{
   border-radius:22px;
   border:1px solid rgba(255,255,255,.18);
   background:rgba(255,255,255,.035);
-  margin-top: 18px;
+  margin-top:18px; /* spacing between button and gallery */
 }
 
 .grid{
@@ -241,11 +222,16 @@ footer{
       <img src="dnalogo.png" alt="DNA Card Den" class="logo">
     </section>
 
-    <!-- BUTTON -->
+    <!-- EBAY LINK -->
     <section class="links">
-      <a class="btn" href="https://www.ebay.com/usr/YOUR-EBAY-USERNAME" target="_blank" rel="noopener noreferrer">
-        <span>Shop our eBay Store</span>
-        <small>Open ↗</small>
+      <a
+        class="ebay-btn"
+        href="https://www.ebay.com/usr/YOUR_EBAY_USERNAME"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img src="ebay-logo.png" alt="Shop on eBay">
+        <span>Visit our eBay Store</span>
       </a>
     </section>
 
