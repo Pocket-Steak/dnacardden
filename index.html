@@ -10,8 +10,11 @@
   --bg:#050608;
   --text:rgba(255,255,255,.92);
   --muted:rgba(255,255,255,.60);
+
   --neon:#38bdf8;
-  --neon-soft:rgba(56,189,248,.35);
+  --neon-strong:rgba(56,189,248,.55);
+  --neon-soft:rgba(56,189,248,.30);
+  --neon-faint:rgba(56,189,248,.15);
 }
 
 /* RESET */
@@ -34,9 +37,9 @@ body{
   z-index:0;
   pointer-events:none;
   background:
-    radial-gradient(1200px 600px at 50% -15%, rgba(56,189,248,.22), transparent 60%),
-    radial-gradient(800px 500px at 15% 10%, rgba(34,211,238,.12), transparent 60%),
-    radial-gradient(800px 500px at 85% 10%, rgba(99,102,241,.10), transparent 60%),
+    radial-gradient(1400px 700px at 50% -20%, rgba(56,189,248,.22), transparent 60%),
+    radial-gradient(900px 600px at 15% 15%, rgba(34,211,238,.12), transparent 65%),
+    radial-gradient(900px 600px at 85% 15%, rgba(99,102,241,.10), transparent 65%),
     var(--bg);
 }
 
@@ -45,7 +48,7 @@ main{
   min-height:100%;
   display:grid;
   place-items:center;
-  padding:0 18px 40px;   /* no top padding */
+  padding:0 18px 40px;
   position:relative;
   z-index:1;
 }
@@ -54,67 +57,99 @@ main{
   width:100%;
   max-width:1100px;
   display:grid;
-  gap:10px;
+  gap:12px;
 }
 
-/* HERO WINDOW (this is the fix) */
+/* HERO */
 .hero{
   position:relative;
   display:grid;
   place-items:center;
-  padding:0;
-  margin:0;
-
-  /* ✅ crop window controls how much “empty PNG space” you see */
-  height: 520px;          /* adjust this if you want */
-  overflow:hidden;        /* hides extra transparent padding */
+  height:520px;
+  overflow:hidden;
 }
 
-/* Glow behind logo */
+/* ===== MULTI-LAYER GLOW ===== */
+
+/* outer atmospheric glow */
 .hero::before{
   content:"";
   position:absolute;
-  width:900px;
-  height:420px;
-  background: radial-gradient(ellipse at center, var(--neon-soft), transparent 65%);
-  filter:blur(30px);
-  opacity:.9;
+  width:1200px;
+  height:600px;
+  background:
+    radial-gradient(
+      ellipse at center,
+      var(--neon-faint),
+      transparent 70%
+    );
+  filter:blur(60px);
+  opacity:1;
   z-index:0;
 }
 
-/* LOGO inside crop window */
+/* mid glow */
+.hero::after{
+  content:"";
+  position:absolute;
+  width:850px;
+  height:420px;
+  background:
+    radial-gradient(
+      ellipse at center,
+      var(--neon-soft),
+      transparent 65%
+    );
+  filter:blur(40px);
+  opacity:.95;
+  z-index:0;
+}
+
+/* inner intense glow */
+.hero .core-glow{
+  position:absolute;
+  width:520px;
+  height:260px;
+  background:
+    radial-gradient(
+      ellipse at center,
+      var(--neon-strong),
+      transparent 60%
+    );
+  filter:blur(35px);
+  opacity:.85;
+  z-index:0;
+}
+
+/* LOGO */
 .logo{
   position:relative;
   z-index:1;
 
   width:min(900px, 95vw);
   height:100%;
-  display:block;
-
   object-fit:contain;
-
-  /* ✅ move the artwork UP inside the crop window */
-  object-position:center 72%; /* try 65–85% */
+  object-position:center 65%;
 
   filter:
-    drop-shadow(0 20px 60px rgba(0,0,0,.75))
-    drop-shadow(0 0 36px rgba(56,189,248,.25));
+    drop-shadow(0 28px 80px rgba(0,0,0,.8))
+    drop-shadow(0 0 48px rgba(56,189,248,.35));
 }
 
-/* Responsive hero height */
+/* RESPONSIVE */
 @media (max-width: 900px){
-  .hero{ height: 440px; }
+  .hero{ height:440px; }
 }
 @media (max-width: 520px){
-  .hero{ height: 380px; }
-  .logo{ object-position:center 75%; }
+  .hero{ height:380px; }
+  .logo{ object-position:center 70%; }
 }
 
 /* BUTTON */
 .links{
   display:grid;
   place-items:center;
-  margin-top:-18px; /* bring button closer to logo */
+  margin-top:-18px;
 }
 
 .btn{
@@ -130,10 +165,10 @@ main{
   justify-content:space-between;
 
   background:
-    radial-gradient(120% 140% at 20% 0%, rgba(56,189,248,.22), transparent 60%),
-    linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.05));
+    radial-gradient(120% 140% at 20% 0%, rgba(56,189,248,.25), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.06));
 
-  border:1px solid rgba(255,255,255,.25);
+  border:1px solid rgba(255,255,255,.28);
   box-shadow:0 22px 70px rgba(0,0,0,.7);
 
   font-weight:750;
@@ -142,7 +177,7 @@ main{
 
 .btn:hover{
   transform:translateY(-1px);
-  filter:brightness(1.07);
+  filter:brightness(1.08);
 }
 
 .btn small{ color:rgba(255,255,255,.72); }
@@ -201,6 +236,7 @@ footer{
 
     <!-- HERO -->
     <section class="hero">
+      <div class="core-glow"></div>
       <img src="dnalogo.png" alt="DNA Card Den" class="logo">
     </section>
 
@@ -222,4 +258,9 @@ footer{
       <div class="caption">Latest pickups • booth setup • sealed highlights</div>
     </section>
 
-    <footer>© 2026 DNA Card Den</foote
+    <footer>© 2026 DNA Card Den</footer>
+
+  </div>
+</main>
+</body>
+</html>
