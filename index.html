@@ -10,12 +10,11 @@
   --bg:#050608;
   --text:rgba(255,255,255,.92);
   --muted:rgba(255,255,255,.60);
-
   --neon:#38bdf8;
   --neon-soft:rgba(56,189,248,.35);
 }
 
-/* reset */
+/* RESET */
 *{box-sizing:border-box}
 html,body{height:100%}
 body{margin:0}
@@ -45,7 +44,7 @@ main{
   min-height:100%;
   display:grid;
   place-items:center;
-  padding:16px 18px 40px; /* MUCH LESS top padding */
+  padding:12px 18px 40px;
   position:relative;
   z-index:1;
 }
@@ -54,19 +53,18 @@ main{
   width:100%;
   max-width:1100px;
   display:grid;
-  gap:10px; /* tighter global gap */
+  gap:8px;
 }
 
 /* HERO */
 .hero{
   position:relative;
-  padding:0;              /* no padding = no deadspace from layout */
+  padding:0;
   display:grid;
   place-items:center;
-  margin:0;
 }
 
-/* Glow behind logo */
+/* Glow */
 .hero::before{
   content:"";
   position:absolute;
@@ -78,37 +76,35 @@ main{
   z-index:0;
 }
 
-/* BIG LOGO */
+/* LOGO */
 .logo{
   position:relative;
   z-index:1;
   width:min(900px, 95vw);
   height:auto;
   display:block;
-  background:transparent;
   margin:0 auto;
 
   filter:
     drop-shadow(0 20px 60px rgba(0,0,0,.75))
     drop-shadow(0 0 36px rgba(56,189,248,.25));
 
-  /* ✅ THIS IS THE KEY: removes “invisible padding” feeling by pulling next section up */
-  margin-bottom:-140px;
+  /* 🔥 MOVE BUTTON UP MORE */
+  margin-bottom:-220px;
 }
 
-/* On smaller screens, don’t pull up as hard */
+/* Responsive tuning */
 @media (max-width: 900px){
-  .logo{ margin-bottom:-70px; }
+  .logo{ margin-bottom:-110px; }
 }
 @media (max-width: 520px){
-  .logo{ margin-bottom:-40px; }
+  .logo{ margin-bottom:-60px; }
 }
 
 /* BUTTON */
 .links{
   display:grid;
   place-items:center;
-  margin-top:0;
 }
 
 .btn{
@@ -149,7 +145,7 @@ main{
   border-radius:22px;
   border:1px solid rgba(255,255,255,.18);
   background:rgba(255,255,255,.035);
-  margin-top:6px;
+  margin-top:4px;
 }
 
 .grid{
@@ -197,12 +193,10 @@ footer{
 <main>
   <div class="wrap">
 
-    <!-- LOGO -->
     <section class="hero">
       <img src="dnalogo.png" alt="DNA Card Den" class="logo">
     </section>
 
-    <!-- BUTTON -->
     <section class="links">
       <a class="btn" href="https://www.ebay.com/usr/YOUR-EBAY-USERNAME" target="_blank" rel="noopener noreferrer">
         <span>Shop our eBay Store</span>
@@ -210,7 +204,6 @@ footer{
       </a>
     </section>
 
-    <!-- GALLERY -->
     <section class="gallery">
       <div class="grid">
         <div class="shot"></div>
