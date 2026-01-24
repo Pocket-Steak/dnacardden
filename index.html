@@ -9,25 +9,25 @@
 :root{
   --bg:#050608;
   --text:rgba(255,255,255,.92);
-  --muted:rgba(255,255,255,.6);
+  --muted:rgba(255,255,255,.60);
 
   --neon:#38bdf8;
   --neon-soft:rgba(56,189,248,.35);
-  --neon-faint:rgba(56,189,248,.18);
 }
 
+/* reset */
 *{box-sizing:border-box}
 html,body{height:100%}
+body{margin:0}
 
 body{
-  margin:0;
   font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   background:var(--bg);
   color:var(--text);
   -webkit-font-smoothing:antialiased;
 }
 
-/* ===== BACKGROUND ===== */
+/* BACKGROUND */
 .bg{
   position:fixed;
   inset:0;
@@ -40,12 +40,12 @@ body{
     var(--bg);
 }
 
-/* ===== LAYOUT ===== */
+/* LAYOUT */
 main{
   min-height:100%;
   display:grid;
   place-items:center;
-  padding:32px 18px 56px;
+  padding:16px 18px 40px; /* MUCH LESS top padding */
   position:relative;
   z-index:1;
 }
@@ -54,15 +54,16 @@ main{
   width:100%;
   max-width:1100px;
   display:grid;
-  gap:14px; /* TIGHTER GLOBAL SPACING */
+  gap:10px; /* tighter global gap */
 }
 
-/* ===== HERO / LOGO ===== */
+/* HERO */
 .hero{
   position:relative;
-  padding:20px 18px 0; /* REDUCED BOTTOM SPACE */
+  padding:0;              /* no padding = no deadspace from layout */
   display:grid;
   place-items:center;
+  margin:0;
 }
 
 /* Glow behind logo */
@@ -71,22 +72,9 @@ main{
   position:absolute;
   width:900px;
   height:420px;
-  background:
-    radial-gradient(ellipse at center, var(--neon-soft), transparent 65%);
+  background: radial-gradient(ellipse at center, var(--neon-soft), transparent 65%);
   filter:blur(30px);
   opacity:.9;
-  z-index:0;
-}
-
-.hero::after{
-  content:"";
-  position:absolute;
-  width:520px;
-  height:240px;
-  background:
-    radial-gradient(ellipse at center, var(--neon), transparent 70%);
-  filter:blur(55px);
-  opacity:.35;
   z-index:0;
 }
 
@@ -98,16 +86,29 @@ main{
   height:auto;
   display:block;
   background:transparent;
+  margin:0 auto;
+
   filter:
     drop-shadow(0 20px 60px rgba(0,0,0,.75))
     drop-shadow(0 0 36px rgba(56,189,248,.25));
+
+  /* ✅ THIS IS THE KEY: removes “invisible padding” feeling by pulling next section up */
+  margin-bottom:-140px;
 }
 
-/* ===== BUTTON ===== */
+/* On smaller screens, don’t pull up as hard */
+@media (max-width: 900px){
+  .logo{ margin-bottom:-70px; }
+}
+@media (max-width: 520px){
+  .logo{ margin-bottom:-40px; }
+}
+
+/* BUTTON */
 .links{
   display:grid;
   place-items:center;
-  margin-top:-6px; /* PULL BUTTON CLOSER TO LOGO */
+  margin-top:0;
 }
 
 .btn{
@@ -142,12 +143,13 @@ main{
   color:rgba(255,255,255,.72);
 }
 
-/* ===== GALLERY ===== */
+/* GALLERY */
 .gallery{
   padding:18px;
   border-radius:22px;
   border:1px solid rgba(255,255,255,.18);
   background:rgba(255,255,255,.035);
+  margin-top:6px;
 }
 
 .grid{
@@ -163,11 +165,9 @@ main{
 .shot{
   border-radius:18px;
   min-height:280px;
-
   background:
     radial-gradient(120% 140% at 20% 0%, rgba(56,189,248,.35), transparent 60%),
     linear-gradient(180deg, rgba(255,255,255,.20), rgba(255,255,255,.08));
-
   border:1px solid rgba(255,255,255,.30);
   box-shadow:
     0 28px 90px rgba(0,0,0,.8),
@@ -186,6 +186,7 @@ footer{
   text-align:center;
   color:rgba(255,255,255,.48);
   font-size:.88rem;
+  margin-top:6px;
 }
 </style>
 </head>
@@ -203,7 +204,7 @@ footer{
 
     <!-- BUTTON -->
     <section class="links">
-      <a class="btn" href="https://www.ebay.com/usr/YOUR-EBAY-USERNAME" target="_blank">
+      <a class="btn" href="https://www.ebay.com/usr/YOUR-EBAY-USERNAME" target="_blank" rel="noopener noreferrer">
         <span>Shop our eBay Store</span>
         <small>Open ↗</small>
       </a>
