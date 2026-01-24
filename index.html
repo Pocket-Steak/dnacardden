@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DNA Card Den</title>
-  <meta name="description" content="DNA Card Den — Shop on eBay and see our latest pickups." />
+  <meta name="description" content="DNA Card Den — Shop our eBay store and see our latest pickups." />
 
   <style>
     :root{
@@ -29,7 +29,6 @@
       text-rendering: optimizeLegibility;
     }
 
-    /* Subtle “modern” depth without looking templated */
     .bg-glow{
       position: fixed;
       inset: 0;
@@ -38,7 +37,7 @@
         radial-gradient(800px 400px at 50% -10%, rgba(255,255,255,.10), transparent 60%),
         radial-gradient(700px 380px at 20% 0%, rgba(10,132,255,.10), transparent 55%),
         radial-gradient(700px 380px at 80% 0%, rgba(255,255,255,.06), transparent 55%);
-      opacity: .6;
+      opacity: .55;
     }
 
     main{
@@ -54,11 +53,11 @@
       width: 100%;
       max-width: 760px;
       display: grid;
-      gap: 18px;
+      gap: 20px;
     }
 
     .hero{
-      padding: 28px 18px 10px;
+      padding: 32px 18px 8px;
       text-align: center;
     }
 
@@ -66,8 +65,8 @@
       width: min(240px, 72vw);
       height: auto;
       display: block;
-      margin: 0 auto 14px;
-      background: transparent; /* if a box shows, it’s inside the image file */
+      margin: 0 auto 18px;
+      background: transparent;
       filter: drop-shadow(0 10px 26px rgba(0,0,0,.55));
     }
 
@@ -76,7 +75,7 @@
       gap: 10px;
       margin: 0 auto;
       width: 100%;
-      max-width: 520px;
+      max-width: 420px;
       padding: 0 6px;
     }
 
@@ -85,7 +84,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 14px;
-      padding: 14px 16px;
+      padding: 14px 18px;
       border-radius: 999px;
       text-decoration: none;
       color: var(--text);
@@ -105,12 +104,11 @@
     .btn small{
       color: var(--muted);
       font-weight: 600;
-      letter-spacing: 0;
       white-space: nowrap;
     }
 
     .gallery{
-      margin-top: 10px;
+      margin-top: 8px;
       padding: 12px;
       border-radius: var(--radius);
       border: 1px solid var(--border);
@@ -133,7 +131,6 @@
       border: 1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.02);
       cursor: pointer;
-      position: relative;
     }
 
     .shot img{
@@ -141,7 +138,6 @@
       height: 180px;
       object-fit: cover;
       display: block;
-      transform: scale(1.001);
       transition: transform .18s ease;
     }
 
@@ -158,7 +154,7 @@
       text-align: center;
       color: rgba(255,255,255,.40);
       font-size: .88rem;
-      padding: 10px 0 0;
+      padding-top: 8px;
     }
 
     /* Lightbox */
@@ -209,6 +205,7 @@
       cursor: pointer;
       font-weight: 650;
     }
+
     .xbtn:hover{ background: rgba(255,255,255,.06); }
   </style>
 </head>
@@ -218,41 +215,32 @@
 
   <main>
     <div class="wrap">
+
+      <!-- LOGO -->
       <section class="hero">
         <img class="logo" src="dnalogo.png" alt="DNA Card Den logo" />
       </section>
 
-      <section class="links" aria-label="Links">
-        <!-- Replace these URLs -->
+      <!-- SINGLE ACTION -->
+      <section class="links" aria-label="Shop link">
         <a class="btn" href="https://www.ebay.com/usr/YOUR-EBAY-USERNAME" target="_blank" rel="noopener noreferrer">
-          <span>Shop eBay</span>
+          <span>Shop our eBay Store</span>
           <small>Open ↗</small>
-        </a>
-
-        <a class="btn" href="https://instagram.com/YOUR-INSTAGRAM" target="_blank" rel="noopener noreferrer">
-          <span>Instagram</span>
-          <small>@</small>
-        </a>
-
-        <!-- Optional: delete if you don’t want it -->
-        <a class="btn" href="https://YOURWEBSITE.COM" target="_blank" rel="noopener noreferrer">
-          <span>Website</span>
-          <small>→</small>
         </a>
       </section>
 
+      <!-- PHOTOS -->
       <section class="gallery" aria-label="Photos">
         <div class="grid">
-          <!-- Replace filenames with your real images -->
-          <div class="shot" data-full="photo1.jpg" aria-label="Open photo 1">
+          <div class="shot" data-full="photo1.jpg">
             <img src="photo1.jpg" alt="DNA Card Den photo 1" loading="lazy" />
           </div>
 
-          <div class="shot" data-full="photo2.jpg" aria-label="Open photo 2">
+          <div class="shot" data-full="photo2.jpg">
             <img src="photo2.jpg" alt="DNA Card Den photo 2" loading="lazy" />
           </div>
 
-          <div class="shot" data-full="photo3.jpg" aria-label="Open photo 3">
+          <div class="shot" data-full="photo3.jpg">
             <img src="photo3.jpg" alt="DNA Card Den photo 3" loading="lazy" />
           </div>
         </div>
@@ -264,8 +252,8 @@
     </div>
   </main>
 
-  <!-- Lightbox -->
-  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image preview">
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox">
     <div class="lightbox-inner">
       <img id="lightboxImg" src="" alt="Preview" />
       <div class="lightbox-bar">
@@ -282,27 +270,30 @@
     const lightboxImg = document.getElementById("lightboxImg");
     const closeBtn = document.getElementById("closeBtn");
 
-    function openLightbox(src){
-      lightboxImg.src = src;
-      lightbox.classList.add("open");
-    }
+    document.querySelectorAll(".shot").forEach(el => {
+      el.addEventListener("click", () => {
+        lightboxImg.src = el.querySelector("img").src;
+        lightbox.classList.add("open");
+      });
+    });
 
-    function closeLightbox(){
+    closeBtn.addEventListener("click", () => {
       lightbox.classList.remove("open");
       lightboxImg.src = "";
-    }
-
-    document.querySelectorAll(".shot").forEach(el => {
-      el.addEventListener("click", () => openLightbox(el.dataset.full));
     });
 
-    closeBtn.addEventListener("click", closeLightbox);
-    lightbox.addEventListener("click", (e) => {
-      if (e.target === lightbox) closeLightbox();
+    lightbox.addEventListener("click", e => {
+      if (e.target === lightbox) {
+        lightbox.classList.remove("open");
+        lightboxImg.src = "";
+      }
     });
 
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeLightbox();
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") {
+        lightbox.classList.remove("open");
+        lightboxImg.src = "";
+      }
     });
   </script>
 </body>
