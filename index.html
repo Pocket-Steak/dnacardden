@@ -24,6 +24,7 @@ body{
   background:var(--bg);
   color:var(--text);
   -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
 }
 
 /* BACKGROUND */
@@ -44,7 +45,7 @@ main{
   min-height:100%;
   display:grid;
   place-items:center;
-  padding:4px 18px 40px;
+  padding:0 18px 40px;   /* no top padding */
   position:relative;
   z-index:1;
 }
@@ -53,18 +54,23 @@ main{
   width:100%;
   max-width:1100px;
   display:grid;
-  gap:8px;
+  gap:10px;
 }
 
-/* HERO */
+/* HERO WINDOW (this is the fix) */
 .hero{
   position:relative;
-  padding:0;
   display:grid;
   place-items:center;
+  padding:0;
+  margin:0;
+
+  /* ✅ crop window controls how much “empty PNG space” you see */
+  height: 520px;          /* adjust this if you want */
+  overflow:hidden;        /* hides extra transparent padding */
 }
 
-/* Glow */
+/* Glow behind logo */
 .hero::before{
   content:"";
   position:absolute;
@@ -76,35 +82,39 @@ main{
   z-index:0;
 }
 
-/* LOGO */
+/* LOGO inside crop window */
 .logo{
   position:relative;
   z-index:1;
+
   width:min(900px, 95vw);
-  height:auto;
+  height:100%;
   display:block;
-  margin:0 auto;
+
+  object-fit:contain;
+
+  /* ✅ move the artwork UP inside the crop window */
+  object-position:center 72%; /* try 65–85% */
 
   filter:
     drop-shadow(0 20px 60px rgba(0,0,0,.75))
     drop-shadow(0 0 36px rgba(56,189,248,.25));
-
-  /* 🔥 MOVE BUTTON UP MORE */
-  margin-bottom:-200px;
 }
 
-/* Responsive tuning */
+/* Responsive hero height */
 @media (max-width: 900px){
-  .logo{ margin-bottom:-110px; }
+  .hero{ height: 440px; }
 }
 @media (max-width: 520px){
-  .logo{ margin-bottom:-60px; }
+  .hero{ height: 380px; }
+  .logo{ object-position:center 75%; }
 }
 
 /* BUTTON */
 .links{
   display:grid;
   place-items:center;
+  margin-top:-18px; /* bring button closer to logo */
 }
 
 .btn{
@@ -135,9 +145,7 @@ main{
   filter:brightness(1.07);
 }
 
-.btn small{
-  color:rgba(255,255,255,.72);
-}
+.btn small{ color:rgba(255,255,255,.72); }
 
 /* GALLERY */
 .gallery{
@@ -145,7 +153,6 @@ main{
   border-radius:22px;
   border:1px solid rgba(255,255,255,.18);
   background:rgba(255,255,255,.035);
-  margin-top:4px;
 }
 
 .grid{
@@ -153,7 +160,6 @@ main{
   grid-template-columns:repeat(3,1fr);
   gap:18px;
 }
-
 @media(max-width:900px){
   .grid{grid-template-columns:1fr}
 }
@@ -193,10 +199,12 @@ footer{
 <main>
   <div class="wrap">
 
+    <!-- HERO -->
     <section class="hero">
       <img src="dnalogo.png" alt="DNA Card Den" class="logo">
     </section>
 
+    <!-- BUTTON -->
     <section class="links">
       <a class="btn" href="https://www.ebay.com/usr/YOUR-EBAY-USERNAME" target="_blank" rel="noopener noreferrer">
         <span>Shop our eBay Store</span>
@@ -204,6 +212,7 @@ footer{
       </a>
     </section>
 
+    <!-- GALLERY -->
     <section class="gallery">
       <div class="grid">
         <div class="shot"></div>
@@ -213,9 +222,4 @@ footer{
       <div class="caption">Latest pickups • booth setup • sealed highlights</div>
     </section>
 
-    <footer>© 2026 DNA Card Den</footer>
-
-  </div>
-</main>
-</body>
-</html>
+    <footer>© 2026 DNA Card Den</foote
